@@ -1,18 +1,20 @@
 name: pc
-version: '20-0.4'
+version: '22-0.3'
 type: gadget
-base: core20
+base: core22
 summary: PC gadget for generic devices
 description: |
     This gadget enables generic pc devices to work with Ubuntu Core
 confinement: strict
-grade: stable
+grade: devel
 icon: icon.png
 
 parts:
   grub-prepare:
     plugin: nil
-    build-snaps: [snapd/latest/edge]
+    build-packages:
+      - ubuntu-dev-tools
+      - wget
     stage-packages:
       - grub-efi-amd64-signed
       - grub-pc-bin
