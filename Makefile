@@ -156,9 +156,9 @@ boot: $(LEGACY_BOOT)
 	$(MAKE) stage-package package=shim-signed
 
 	if [ -f "$(SHIM_LATEST)" ]; then \
-		cp $(SHIM_LATEST) shim.efi.signed; \
+		cp $(SHIM_LATEST) shim$(EFI_ARCH).efi; \
 	else \
-		cp $(SHIM_SIGNED) shim.efi.signed; \
+		cp $(SHIM_SIGNED) shim$(EFI_ARCH).efi; \
 	fi
 	cp $(STAGEDIR)/usr/lib/grub/$(GRUB_TARGET)/grub$(EFI_ARCH).efi.signed grub$(EFI_ARCH).efi
 	cp $(STAGEDIR)/usr/lib/shim/BOOT$(EFI_ARCH_UPPER).CSV BOOT$(EFI_ARCH_UPPER).CSV
@@ -168,7 +168,7 @@ boot: $(LEGACY_BOOT)
 install: boot
 	mkdir -p $(DESTDIR)
 	install -m 644 \
-	    $(if $(LEGACY_BOOT),pc-boot.img pc-core.img) shim.efi.signed grub$(EFI_ARCH).efi \
+	    $(if $(LEGACY_BOOT),pc-boot.img pc-core.img) shim$(EFI_ARCH).efi grub$(EFI_ARCH).efi \
 	    BOOT$(EFI_ARCH_UPPER).CSV fb$(EFI_ARCH).efi mm$(EFI_ARCH).efi \
 	    $(DESTDIR)/
 	install -m 644 grub.conf grub.cfg $(DESTDIR)/
@@ -180,7 +180,7 @@ install: boot
 # only used locally, not relevant for snapcraft, livecd-rootfs or ubuntu-image
 clean:
 	rm -rf $(STAGEDIR)
-	rm -f pc-boot.img pc-core.img shim.efi.signed grub$(EFI_ARCH).efi \
+	rm -f pc-boot.img pc-core.img shim$(EFI_ARCH).efi grub$(EFI_ARCH).efi \
 	    BOOT$(EFI_ARCH_UPPER).CSV fb$(EFI_ARCH).efi mm$(EFI_ARCH).efi
 	rm -f gadget.yaml
 	rm -rf $(DESTDIR)
